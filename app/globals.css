@@ -1371,6 +1371,24 @@ footer {
   --campaign-dark: #29221f;
 }
 
+.campaign-clarity {
+  --campaign-accent: #a13b2c;
+  --campaign-dark: #2d211c;
+}
+
+.campaign-clarity .campaign-visual figure {
+  aspect-ratio: 0.708;
+  background: #e8e8e6;
+}
+
+.campaign-clarity .campaign-visual figure img {
+  object-fit: contain;
+}
+
+.campaign-clarity .campaign-visual {
+  width: min(82%, 430px);
+}
+
 @media (max-width: 980px) {
   .hero {
     grid-template-columns: 1fr;

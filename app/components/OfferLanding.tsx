@@ -11,7 +11,7 @@ type Step = {
 };
 
 type OfferLandingProps = {
-  theme: "spiritual" | "coding" | "automation" | "pmp";
+  theme: "spiritual" | "coding" | "automation" | "pmp" | "clarity";
   brand: string;
   kicker: string;
   title: string;
@@ -33,6 +33,8 @@ type OfferLandingProps = {
   steps: Step[];
   included: string[];
   note?: string;
+  visualSrc?: string;
+  visualAlt?: string;
 };
 
 export default function OfferLanding({
@@ -58,6 +60,8 @@ export default function OfferLanding({
   steps,
   included,
   note,
+  visualSrc = "/samurai-logo.png",
+  visualAlt,
 }: OfferLandingProps) {
   const whatsappUrl = `https://wa.me/2290167153974?text=${encodeURIComponent(whatsappMessage)}`;
 
@@ -96,8 +100,8 @@ export default function OfferLanding({
           <div className="campaign-halo" aria-hidden="true" />
           <figure>
             <img
-              src="/samurai-logo.png"
-              alt={`Robot samouraï Africa Samurai pour ${brand}`}
+              src={visualSrc}
+              alt={visualAlt ?? `Robot samouraï Africa Samurai pour ${brand}`}
               width="1254"
               height="1254"
             />
