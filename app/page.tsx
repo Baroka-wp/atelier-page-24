@@ -34,7 +34,10 @@ const included = [
 
 export default function Home() {
   return (
-    <main>
+    <main id="main-content">
+      <a className="skip-link" href="#offre">
+        Aller au contenu
+      </a>
       <nav className="nav" aria-label="Navigation principale">
         <a className="brand" href="#top" aria-label="Atelier Page 24, accueil">
           <img src="/samurai-logo.png" alt="" width="48" height="48" />
@@ -54,15 +57,15 @@ export default function Home() {
         <div className="hero-copy">
           <p className="eyebrow">Page de vente premium · livrée en 24 h</p>
           <h1>
-            Votre marque,
+            Votre offre,
             <br />
-            <span>plus claire.</span>
+            <span>comprise</span>
             <br />
-            Plus désirable.
+            en quelques secondes.
           </h1>
           <p className="hero-text">
-            Une page conçue, écrite et mise en ligne en un seul mouvement —
-            pour transformer l’attention en conversations utiles.
+            Nous clarifions votre promesse, écrivons le parcours et mettons en
+            ligne une page qui conduit directement à la conversation.
           </p>
           <div className="hero-actions">
             <a className="primary-button" href={whatsappUrl} target="_blank" rel="noreferrer">
@@ -90,6 +93,7 @@ export default function Home() {
                 alt="Robot samouraï africain, emblème de l’Atelier Page 24"
                 width="1254"
                 height="1254"
+                fetchPriority="high"
               />
             </div>
             <figcaption>
@@ -273,7 +277,13 @@ export default function Home() {
       <footer>
         <div className="footer-main">
           <div className="footer-brand">
-            <img src="/samurai-logo.png" alt="" width="64" height="64" />
+            <img
+              src="/samurai-logo.png"
+              alt=""
+              width="64"
+              height="64"
+              loading="lazy"
+            />
             <span>Atelier Page 24</span>
           </div>
           <p className="footer-call">Votre nouvelle page<br />commence ici.</p>

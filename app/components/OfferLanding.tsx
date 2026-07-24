@@ -66,10 +66,23 @@ export default function OfferLanding({
   const whatsappUrl = `https://wa.me/2290167153974?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
-    <main className={`campaign-page campaign-${theme}`}>
+    <main id="main-content" className={`campaign-page campaign-${theme}`}>
+      <a className="skip-link" href="#proposition">
+        Aller au contenu
+      </a>
       <nav className="campaign-nav" aria-label={`Navigation ${brand}`}>
-        <a className="campaign-brand" href="#top">
-          <img src="/samurai-logo.png" alt="" width="46" height="46" />
+        <a
+          className="campaign-brand"
+          href="#top"
+          aria-label={`${brand}, retour en haut`}
+        >
+          <img
+            src="/samurai-logo.png"
+            alt=""
+            width="46"
+            height="46"
+            loading="lazy"
+          />
           <span>
             <strong>{brand}</strong>
             <small>par Africa Samurai</small>
@@ -104,6 +117,7 @@ export default function OfferLanding({
               alt={visualAlt ?? `Robot samouraï Africa Samurai pour ${brand}`}
               width="1254"
               height="1254"
+              fetchPriority="high"
             />
           </figure>
           <div className="campaign-price-badge">
@@ -114,7 +128,7 @@ export default function OfferLanding({
         </div>
       </section>
 
-      <section className="campaign-statement">
+      <section className="campaign-statement" id="proposition">
         <p>{promiseLabel}</p>
         <h2>{promiseTitle}</h2>
         <div>
@@ -189,6 +203,9 @@ export default function OfferLanding({
         </div>
         <span>Cotonou · Bénin</span>
         <span>+229 01 67 15 39 74</span>
+        <a className="campaign-footer-link" href="#top">
+          Retour en haut
+        </a>
       </footer>
     </main>
   );
