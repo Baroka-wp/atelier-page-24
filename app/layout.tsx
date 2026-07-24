@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import { headers } from "next/headers";
 import "./globals.css";
 
-const geist = Geist({
-  variable: "--font-geist-sans",
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -20,19 +21,19 @@ export async function generateMetadata(): Promise<Metadata> {
   const imageUrl = `${protocol}://${host}/og.png`;
 
   return {
-    title: "Atelier Page 24 — Votre page de vente en 24 heures",
+    title: "Atelier Page 24 — Une page premium en 24 heures",
     description:
-      "Une page de vente premium, pensée et livrée en 24 heures. Offre fondatrice à Cotonou.",
+      "Une page de vente premium, conçue, écrite et mise en ligne en 24 heures. Offre fondatrice à Cotonou.",
     openGraph: {
       title: "Atelier Page 24",
-      description: "Votre page de vente, livrée en 24 heures.",
+      description: "Votre marque, plus claire. Votre page, livrée en 24 heures.",
       type: "website",
-      images: [{ url: imageUrl, width: 1200, height: 630 }],
+      images: [{ url: imageUrl, width: 1254, height: 1254 }],
     },
     twitter: {
       card: "summary_large_image",
       title: "Atelier Page 24",
-      description: "Votre page de vente, livrée en 24 heures.",
+      description: "Votre marque, plus claire. Votre page, livrée en 24 heures.",
       images: [imageUrl],
     },
   };
@@ -45,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={geist.variable}>{children}</body>
+      <body className={montserrat.variable}>{children}</body>
     </html>
   );
 }

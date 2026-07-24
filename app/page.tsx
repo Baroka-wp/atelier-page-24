@@ -4,19 +4,28 @@ const whatsappUrl =
 const services = [
   {
     number: "01",
-    title: "Une page qui donne envie",
-    text: "Une direction artistique sobre, une promesse claire et un parcours pensé pour transformer l’attention en conversation.",
+    title: "Un message qui devient évident",
+    text: "Nous clarifions votre promesse, écrivons le parcours et donnons à votre client une raison simple de vous contacter.",
   },
   {
     number: "02",
-    title: "Tout fonctionne sur mobile",
-    text: "Votre page s’adapte aux téléphones, se charge vite et guide naturellement vers WhatsApp.",
+    title: "Un design qui inspire confiance",
+    text: "Une direction artistique premium, pensée pour votre activité et parfaitement lisible sur mobile.",
   },
   {
     number: "03",
-    title: "Livrée en 24 heures",
-    text: "Vous envoyez vos éléments aujourd’hui. Une première version complète vous est présentée sous 24 heures.",
+    title: "Une page prête en 24 heures",
+    text: "Vous transmettez vos éléments aujourd’hui. Nous livrons une première version complète sous 24 heures.",
   },
+];
+
+const included = [
+  "Positionnement et structure",
+  "Rédaction de la page",
+  "Direction artistique personnalisée",
+  "Version mobile performante",
+  "Conversion directe vers WhatsApp",
+  "Une série d’ajustements",
 ];
 
 export default function Home() {
@@ -24,26 +33,32 @@ export default function Home() {
     <main>
       <nav className="nav" aria-label="Navigation principale">
         <a className="brand" href="#top" aria-label="Atelier Page 24, accueil">
-          Atelier Page <span>24</span>
+          <img src="/samurai-logo.png" alt="" width="48" height="48" />
+          <span className="brand-copy">
+            <strong>Atelier Page 24</strong>
+            <small>par ProSuite Africa</small>
+          </span>
         </a>
         <a className="nav-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
-          Réserver une place
+          Réserver
+          <span aria-hidden="true">↗</span>
         </a>
       </nav>
 
       <section className="hero" id="top">
-        <div className="light light-one" />
-        <div className="light light-two" />
+        <div className="hero-glow" aria-hidden="true" />
         <div className="hero-copy">
-          <p className="eyebrow">Création web express · Offre fondatrice</p>
+          <p className="eyebrow">Page de vente premium · livrée en 24 h</p>
           <h1>
-            Votre activité mérite
+            Votre marque,
             <br />
-            une présence qui <em>respire.</em>
+            <span>plus claire.</span>
+            <br />
+            Plus désirable.
           </h1>
           <p className="hero-text">
-            Une page de vente premium, pensée et livrée en 24 heures.
-            Deux places seulement aujourd’hui.
+            Une page conçue, écrite et mise en ligne en un seul mouvement —
+            pour transformer l’attention en conversations utiles.
           </p>
           <div className="hero-actions">
             <a className="primary-button" href={whatsappUrl} target="_blank" rel="noreferrer">
@@ -51,56 +66,93 @@ export default function Home() {
               <span aria-hidden="true">↗</span>
             </a>
             <a className="text-link" href="#offre">
-              Découvrir l’offre
+              Voir ce qui est inclus
             </a>
           </div>
-        </div>
-        <div className="hero-card" aria-label="Aperçu de l’offre">
-          <div className="card-top">
-            <span>Page Signature</span>
-            <span>24 h</span>
+          <div className="hero-proof" aria-label="Points clés de l’offre">
+            <span>Stratégie incluse</span>
+            <span>Textes inclus</span>
+            <span>Mobile inclus</span>
           </div>
-          <div className="card-scene">
-            <div className="scene-copy">
-              <span>Votre promesse</span>
-              <strong>Claire, calme,<br />mémorable.</strong>
+        </div>
+
+        <div className="hero-visual">
+          <div className="orbit orbit-one" aria-hidden="true" />
+          <div className="orbit orbit-two" aria-hidden="true" />
+          <figure className="mascot-card">
+            <div className="mascot-frame">
+              <img
+                src="/samurai-logo.png"
+                alt="Robot samouraï africain, emblème de l’Atelier Page 24"
+                width="1254"
+                height="1254"
+              />
             </div>
-            <div className="halo" />
-          </div>
-          <div className="card-bottom">
-            <span>Design</span>
-            <span>Texte</span>
-            <span>Mobile</span>
-            <span>WhatsApp</span>
+            <figcaption>
+              <span>Votre présence digitale</span>
+              <strong>Simple. Forte. Mémorable.</strong>
+            </figcaption>
+          </figure>
+          <div className="visual-badge">
+            <span>02</span>
+            places aujourd’hui
           </div>
         </div>
-        <div className="scroll-note">Défiler pour découvrir</div>
+      </section>
+
+      <section className="signature-strip" aria-label="Promesse de service">
+        <span>Positionnement</span>
+        <i aria-hidden="true" />
+        <span>Rédaction</span>
+        <i aria-hidden="true" />
+        <span>Design</span>
+        <i aria-hidden="true" />
+        <span>Mise en ligne</span>
       </section>
 
       <section className="manifesto">
-        <p className="eyebrow">Notre conviction</p>
-        <p className="manifesto-text">
-          Le meilleur site n’impressionne pas par la technologie.
-          <span> Il met votre client à l’aise, puis lui donne une raison simple d’agir.</span>
-        </p>
+        <div>
+          <p className="eyebrow light-eyebrow">Notre principe</p>
+          <p className="manifesto-text">
+            Le meilleur site ne demande pas d’effort.
+            <span> Il rassure, il raconte, puis il invite à agir.</span>
+          </p>
+        </div>
+        <div className="manifesto-metrics">
+          <article>
+            <strong>24 h</strong>
+            <span>pour votre première version</span>
+          </article>
+          <article>
+            <strong>1 page</strong>
+            <span>centrée sur une seule action</span>
+          </article>
+          <article>
+            <strong>0 friction</strong>
+            <span>de la découverte à WhatsApp</span>
+          </article>
+        </div>
       </section>
 
       <section className="offer" id="offre">
         <div className="section-head">
           <div>
             <p className="eyebrow">La Page Signature</p>
-            <h2>L’essentiel, parfaitement exécuté.</h2>
+            <h2>L’essentiel,<br />sans le bruit.</h2>
           </div>
           <p>
             Pour consultants, commerces, événements, produits et services qui
-            ont besoin d’être présentés avec justesse — maintenant.
+            ont besoin d’une présence précise, élégante et immédiatement utile.
           </p>
         </div>
 
         <div className="service-grid">
           {services.map((service) => (
             <article className="service-card" key={service.number}>
-              <span className="service-number">{service.number}</span>
+              <div className="service-top">
+                <span className="service-number">{service.number}</span>
+                <span className="service-mark" aria-hidden="true">✦</span>
+              </div>
               <div>
                 <h3>{service.title}</h3>
                 <p>{service.text}</p>
@@ -111,58 +163,75 @@ export default function Home() {
       </section>
 
       <section className="process">
-        <div className="process-copy">
-          <p className="eyebrow">Simple par nature</p>
-          <h2>Trois moments.<br />Aucune friction.</h2>
+        <div className="process-intro">
+          <p className="eyebrow">Un parcours fluide</p>
+          <h2>Trois moments.<br />Une page prête.</h2>
+          <p>
+            Un processus concentré qui protège votre temps et maintient la
+            qualité du premier échange jusqu’à la mise en ligne.
+          </p>
         </div>
         <ol className="timeline">
           <li>
-            <span>Ce matin</span>
+            <span>01</span>
             <div>
+              <small>Ce matin</small>
               <strong>Vous réservez</strong>
-              <p>Paiement MoMo de 175 000 FCFA et envoi de votre brief.</p>
+              <p>Paiement MoMo et conversation de cadrage de 20 minutes.</p>
             </div>
           </li>
           <li>
-            <span>Dans la journée</span>
+            <span>02</span>
             <div>
+              <small>Dans la journée</small>
               <strong>Nous créons</strong>
-              <p>Positionnement, texte, design et intégration en un seul mouvement.</p>
+              <p>Positionnement, texte, direction artistique et intégration.</p>
             </div>
           </li>
           <li>
-            <span>Sous 24 h</span>
+            <span>03</span>
             <div>
+              <small>Sous 24 heures</small>
               <strong>Vous recevez</strong>
-              <p>Votre page complète, prête à être partagée avec vos clients.</p>
+              <p>Une page complète, mobile et prête à accueillir vos clients.</p>
             </div>
           </li>
         </ol>
       </section>
 
       <section className="price-section">
+        <div className="price-story">
+          <p className="eyebrow light-eyebrow">Offre fondatrice</p>
+          <h2>Deux places.<br />Aujourd’hui.</h2>
+          <p>
+            Un format volontairement limité pour rester rapide, précis et
+            entièrement concentré sur votre activité.
+          </p>
+          <div className="gold-seal" aria-hidden="true">
+            <span>24</span>
+            <small>heures</small>
+          </div>
+        </div>
+
         <div className="price-card">
-          <p className="eyebrow">Offre fondatrice · 2 places</p>
-          <div className="price-row">
+          <div className="price-heading">
             <div>
               <span className="price">175 000</span>
               <span className="currency">FCFA</span>
             </div>
-            <p>Paiement unique · Livraison sous 24 h</p>
+            <p>Paiement unique</p>
           </div>
           <ul>
-            <li>Direction artistique personnalisée</li>
-            <li>Rédaction et structuration du message</li>
-            <li>Page responsive et performante</li>
-            <li>Bouton de conversion WhatsApp</li>
-            <li>Une série d’ajustements incluse</li>
+            {included.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
           </ul>
           <a className="primary-button wide" href={whatsappUrl} target="_blank" rel="noreferrer">
             Réserver ma Page Signature
             <span aria-hidden="true">↗</span>
           </a>
           <p className="payment-note">
-            La réservation est confirmée après réception du paiement MoMo.
+            Réservation confirmée après réception du paiement MoMo.
           </p>
         </div>
       </section>
@@ -170,7 +239,7 @@ export default function Home() {
       <section className="faq">
         <div>
           <p className="eyebrow">Questions essentielles</p>
-          <h2>Avant de commencer.</h2>
+          <h2>Avant de<br />commencer.</h2>
         </div>
         <div className="faq-list">
           <details>
@@ -184,7 +253,7 @@ export default function Home() {
             <summary>Le délai de 24 h est-il réel ?</summary>
             <p>
               Oui, à compter de la réception du paiement et de tous les éléments
-              nécessaires. Les retards de transmission décalent la livraison.
+              nécessaires. Un retard de transmission décale la livraison.
             </p>
           </details>
           <details>
@@ -198,14 +267,18 @@ export default function Home() {
       </section>
 
       <footer>
-        <div>
-          <p className="footer-call">Votre place est encore libre.</p>
+        <div className="footer-main">
+          <div className="footer-brand">
+            <img src="/samurai-logo.png" alt="" width="64" height="64" />
+            <span>Atelier Page 24</span>
+          </div>
+          <p className="footer-call">Votre nouvelle page<br />commence ici.</p>
           <a href={whatsappUrl} target="_blank" rel="noreferrer">
-            Parlons-en sur WhatsApp ↗
+            Parlons-en sur WhatsApp <span aria-hidden="true">↗</span>
           </a>
         </div>
         <div className="footer-bottom">
-          <span>Atelier Page 24</span>
+          <span>ProSuite Africa</span>
           <span>Cotonou · Bénin</span>
           <span>+229 01 67 15 39 74</span>
         </div>
