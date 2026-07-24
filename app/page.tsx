@@ -32,62 +32,6 @@ const included = [
   "Une série d’ajustements",
 ];
 
-const africaSamuraiOffers = [
-  {
-    tag: "Voies intérieures · PDF",
-    title: "Kabbale & Théurgie",
-    subtitle: "L’atelier de la présence",
-    price: "15 000",
-    unit: "FCFA",
-    text: "Un guide original de 16 pages et un parcours contemplatif de 7 jours. Repères historiques, symboles, carnet de pratique et cadre de discernement.",
-    details: ["Livraison immédiate", "PDF haute qualité", "Usage personnel"],
-    cta: "Recevoir le guide",
-    href: whatsappFor(
-      "Bonjour, je veux recevoir le guide PDF « Kabbale & Théurgie - L’atelier de la présence » à 15 000 FCFA.",
-    ),
-  },
-  {
-    tag: "Studio · Coding",
-    title: "Coding Express",
-    subtitle: "Votre outil métier en 72 h",
-    price: "150 000",
-    unit: "FCFA",
-    text: "Un mini-outil web ciblé : formulaire intelligent, calculateur, tableau de suivi, catalogue ou espace client léger.",
-    details: ["Cadrage de 30 min", "Version mobile", "Mise en ligne incluse"],
-    cta: "Lancer mon outil",
-    href: whatsappFor(
-      "Bonjour, je veux discuter du service Coding Express à 150 000 FCFA.",
-    ),
-  },
-  {
-    tag: "Studio · Automatisation",
-    title: "Automation Sprint",
-    subtitle: "Une tâche répétitive supprimée",
-    price: "175 000",
-    unit: "FCFA",
-    text: "Nous automatisons un flux concret : collecte de prospects, relances, reporting, documents, notifications ou transfert de données.",
-    details: ["Audit rapide", "1 flux automatisé", "Passation incluse"],
-    cta: "Automatiser mon flux",
-    href: whatsappFor(
-      "Bonjour, je veux réserver un Automation Sprint à 175 000 FCFA.",
-    ),
-  },
-  {
-    tag: "Academy · Management",
-    title: "PMP Ready",
-    subtitle: "Préparation intensive",
-    price: "75 000",
-    unit: "FCFA",
-    text: "Deux séances individuelles pour structurer votre préparation PMP : diagnostic, plan d’étude, méthodes et simulation de questions.",
-    details: ["2 séances en ligne", "Plan personnalisé", "Suivi pendant 14 jours"],
-    cta: "Réserver ma préparation",
-    href: whatsappFor(
-      "Bonjour, je veux réserver la préparation intensive PMP Ready à 75 000 FCFA.",
-    ),
-    note: "Préparation indépendante. L’examen et la certification PMP® sont délivrés exclusivement par PMI.",
-  },
-];
-
 export default function Home() {
   return (
     <main>
@@ -95,17 +39,14 @@ export default function Home() {
         <a className="brand" href="#top" aria-label="Atelier Page 24, accueil">
           <img src="/samurai-logo.png" alt="" width="48" height="48" />
           <span className="brand-copy">
-            <strong>Africa Samurai</strong>
-            <small>Studio & Academy</small>
+            <strong>Atelier Page 24</strong>
+            <small>par Africa Samurai</small>
           </span>
         </a>
-        <div className="nav-actions">
-          <a className="nav-link" href="#africa-samurai">Nos offres</a>
-          <a className="nav-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
-            Réserver
-            <span aria-hidden="true">↗</span>
-          </a>
-        </div>
+        <a className="nav-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
+          Réserver
+          <span aria-hidden="true">↗</span>
+        </a>
       </nav>
 
       <section className="hero" id="top">
@@ -225,49 +166,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="samurai-business" id="africa-samurai">
-        <div className="samurai-business-head">
-          <div>
-            <p className="eyebrow light-eyebrow">Africa Samurai · Studio & Academy</p>
-            <h2>Apprendre.<br />Construire.<br /><span>Automatiser.</span></h2>
-          </div>
-          <p>
-            Des produits et prestations courts, précis et immédiatement
-            actionnables — de l’étude intérieure aux systèmes qui font gagner
-            du temps.
-          </p>
-        </div>
-
-        <div className="business-grid">
-          {africaSamuraiOffers.map((offer, index) => (
-            <article className={`business-card business-card-${index + 1}`} key={offer.title}>
-              <div className="business-card-top">
-                <span>{offer.tag}</span>
-                <small>0{index + 1}</small>
-              </div>
-              <div className="business-card-copy">
-                <h3>{offer.title}</h3>
-                <strong>{offer.subtitle}</strong>
-                <p>{offer.text}</p>
-              </div>
-              <ul>
-                {offer.details.map((detail) => (
-                  <li key={detail}>{detail}</li>
-                ))}
-              </ul>
-              <div className="business-price">
-                <span>{offer.price}</span>
-                <small>{offer.unit}</small>
-              </div>
-              <a href={offer.href} target="_blank" rel="noreferrer">
-                {offer.cta} <span aria-hidden="true">↗</span>
-              </a>
-              {offer.note && <p className="business-note">{offer.note}</p>}
-            </article>
-          ))}
-        </div>
-      </section>
-
       <section className="process">
         <div className="process-intro">
           <p className="eyebrow">Un parcours fluide</p>
@@ -376,7 +274,7 @@ export default function Home() {
         <div className="footer-main">
           <div className="footer-brand">
             <img src="/samurai-logo.png" alt="" width="64" height="64" />
-            <span>Africa Samurai</span>
+            <span>Atelier Page 24</span>
           </div>
           <p className="footer-call">Votre nouvelle page<br />commence ici.</p>
           <a href={whatsappUrl} target="_blank" rel="noreferrer">
@@ -384,7 +282,7 @@ export default function Home() {
           </a>
         </div>
         <div className="footer-bottom">
-          <span>Studio & Academy</span>
+          <span>Africa Samurai</span>
           <span>Cotonou · Bénin</span>
           <span>+229 01 67 15 39 74</span>
         </div>
