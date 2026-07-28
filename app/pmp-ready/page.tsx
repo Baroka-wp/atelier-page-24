@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import OfferLanding from "../components/OfferLanding";
 
 export const metadata: Metadata = {
-  title: "PMP Ready — Préparation intensive et personnalisée",
-  description: "Deux séances individuelles et un plan d’étude personnalisé pour structurer votre préparation PMP.",
+  title: "PMP Ready — Structurer son passage de la technique au pilotage",
+  description: "Un diagnostic, deux séances individuelles et 14 jours de suivi pour structurer une préparation PMP adaptée à votre parcours.",
 };
 
 export default function PmpReadyPage() {
@@ -11,37 +11,37 @@ export default function PmpReadyPage() {
     <OfferLanding
       theme="pmp"
       brand="PMP Ready"
-      kicker="Préparation intensive · Accompagnement individuel"
-      title="Votre préparation PMP."
-      accent="Structurée autour de vous."
-      intro="Deux séances individuelles pour diagnostiquer votre niveau, construire un plan d’étude réaliste et vous entraîner à raisonner face aux questions de situation."
+      kicker="Développeurs · Ingénieurs · Chefs de projet"
+      title="Passez de l’exécution"
+      accent="au pilotage."
+      intro="Un accompagnement individuel pour les profils techniques et opérationnels qui veulent consolider leurs compétences transversales, structurer leur préparation PMP et mieux piloter priorités, risques, délais et parties prenantes à l’ère de l’IA."
       price="75 000"
       delivery="2 séances en ligne et 14 jours de suivi"
-      cta="Réserver ma préparation"
-      whatsappMessage="Bonjour, je veux réserver la préparation intensive PMP Ready à 75 000 FCFA."
-      proof={["Diagnostic individuel", "Plan personnalisé", "14 jours de suivi"]}
+      cta="Réserver mon diagnostic"
+      whatsappMessage="Bonjour, je souhaite réserver mon diagnostic PMP Ready à 75 000 FCFA. Mon profil actuel est : "
+      proof={["Profils techniques bienvenus", "Plan personnel", "14 jours de suivi"]}
       promiseLabel="L’accompagnement"
-      promiseTitle="Savoir quoi étudier, comment répondre et où concentrer l’effort."
-      promiseText="PMP Ready ne remplace pas votre travail personnel. Il vous donne une structure, une méthode de lecture des situations et un rythme adapté à votre disponibilité."
+      promiseTitle="Relier votre expérience technique aux compétences de pilotage."
+      promiseText="PMP Ready vous aide à transformer votre expérience en trajectoire de préparation cohérente. Vous repartez avec un diagnostic, un plan réaliste et une méthode de lecture des situations adaptée à votre disponibilité."
       outcomes={[
-        { number: "01", title: "Un diagnostic clair", text: "Nous identifions vos acquis, vos angles morts et la charge de travail réaliste." },
-        { number: "02", title: "Un plan personnel", text: "Votre calendrier relie domaines, révisions, questions et points de contrôle." },
-        { number: "03", title: "Une méthode de décision", text: "Vous apprenez à analyser les scénarios plutôt qu’à mémoriser des réponses isolées." },
+        { number: "01", title: "Positionner votre profil", text: "Nous relions votre expérience réelle aux compétences attendues en gestion de projet." },
+        { number: "02", title: "Construire un plan viable", text: "Votre calendrier relie domaines, révisions, mises en situation et points de contrôle." },
+        { number: "03", title: "Développer le raisonnement", text: "Vous apprenez à arbitrer dans des contextes prédictifs, agiles, hybrides et augmentés par l’IA." },
       ]}
       examplesLabel="Travail couvert"
-      examplesTitle="Une préparation orientée situations."
+      examplesTitle="De la maîtrise technique à la vision d’ensemble."
       examples={[
-        "Diagnostic de positionnement",
-        "Organisation du plan d’étude",
-        "Lecture des questions situationnelles",
+        "Priorités, délais et dépendances",
+        "Risques et qualité de décision",
+        "Parties prenantes et communication",
         "Approches prédictives, agiles et hybrides",
-        "Analyse des erreurs et des hésitations",
-        "Simulation et débrief personnalisé",
+        "Équipes humaines et outils d’IA",
+        "Questions situationnelles et débrief",
       ]}
       steps={[
-        { label: "Séance 01", title: "Diagnostic et trajectoire", text: "Nous faisons le point sur l’expérience, le niveau et la disponibilité, puis bâtissons le plan." },
-        { label: "Entre les séances", title: "Travail guidé", text: "Vous avancez avec des objectifs précis et partagez vos difficultés." },
-        { label: "Séance 02", title: "Simulation et correction", text: "Nous travaillons les raisonnements, les erreurs récurrentes et la suite du plan." },
+        { label: "Séance 01", title: "Diagnostic et trajectoire", text: "Nous faisons le point sur votre expérience, vos objectifs et votre disponibilité, puis bâtissons le plan." },
+        { label: "Entre les séances", title: "Mise en pratique guidée", text: "Vous avancez avec des objectifs précis et documentez vos difficultés." },
+        { label: "Séance 02", title: "Simulation et ajustement", text: "Nous travaillons vos raisonnements, les erreurs récurrentes et la suite du parcours." },
       ]}
       included={["2 séances individuelles en ligne", "Diagnostic de niveau", "Plan d’étude personnalisé", "Simulation de questions", "Débrief des erreurs", "Suivi WhatsApp pendant 14 jours"]}
       note="PMP Ready est une préparation indépendante. L’examen et la certification PMP® sont délivrés exclusivement par Project Management Institute (PMI). Africa Samurai ne délivre pas la certification PMP."

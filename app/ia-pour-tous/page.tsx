@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 const whatsappMessage =
-  "Bonjour, je souhaite m’inscrire à la formation L’Intelligence artificielle pour tous à 25 000 FCFA. Je préfère la formule : ";
+  "Bonjour, je souhaite réserver ___ place(s) pour la formation L’Intelligence artificielle pour tous à 25 000 FCFA par personne. Je préfère la formule : ";
 const whatsappUrl = `https://wa.me/22955952589?text=${encodeURIComponent(whatsappMessage)}`;
 const mapUrl = "https://maps.app.goo.gl/kmKEK85keNx4NAeD7?g_st=ic";
 
@@ -34,34 +34,34 @@ export default function IaPourTousPage() {
           </span>
         </a>
         <a className="ai-nav-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
-          Réserver sur WhatsApp
+          Réserver une place
         </a>
       </nav>
 
       <section className="ai-hero" id="top">
         <div className="ai-hero-copy">
-          <p className="ai-eyebrow">3 · 5 · 7 août 2026 — Abomey-Calavi ou en ligne</p>
+          <p className="ai-eyebrow">25 000 FCFA par place · 15 places maximum</p>
           <h1>
             L’IA devient utile
             <span>quand elle part de votre quotidien.</span>
           </h1>
           <p className="ai-lead">
-            Trois matinées pour apprendre à écrire, organiser, créer et gagner du
-            temps avec l’intelligence artificielle — sans jargon et sans prérequis
-            technique.
+            Trois matinées pour les professionnels, entrepreneurs et indépendants
+            qui veulent rédiger, organiser et produire plus efficacement avec
+            l’intelligence artificielle — sans jargon technique.
           </p>
           <div className="ai-actions">
             <a className="ai-primary" href={whatsappUrl} target="_blank" rel="noreferrer">
-              Je réserve ma place <span aria-hidden="true">↗</span>
+              Réserver 1 ou plusieurs places <span aria-hidden="true">→</span>
             </a>
             <a className="ai-map-link" href={mapUrl} target="_blank" rel="noreferrer">
               Voir le lieu
             </a>
           </div>
           <div className="ai-proof" aria-label="Informations principales">
-            <span>9 heures de pratique</span>
-            <span>Débutants bienvenus</span>
-            <span>15 places en présentiel</span>
+            <span>3 · 5 · 7 août 2026</span>
+            <span>09 h — 12 h</span>
+            <span>Aucun prérequis</span>
           </div>
         </div>
 
@@ -118,6 +118,38 @@ export default function IaPourTousPage() {
           <h3>Alléger le répétitif</h3>
           <p>Identifier ce qui peut être simplifié ou automatisé sans perdre le contrôle.</p>
         </article>
+      </section>
+
+      <section className="ai-seats" aria-labelledby="ai-seats-title">
+        <div>
+          <p className="ai-eyebrow">Inscription flexible</p>
+          <h2 id="ai-seats-title">
+            Venez seul.<br />Ou avancez en équipe.
+          </h2>
+          <p>
+            Vous pouvez réserver une place pour vous-même ou inscrire plusieurs
+            collaborateurs, associés ou membres de votre organisation. Chaque
+            participant suit le parcours complet.
+          </p>
+        </div>
+        <div className="ai-seat-options" aria-label="Exemples de réservation">
+          <article>
+            <span>01 personne</span>
+            <strong>25 000</strong>
+            <small>FCFA</small>
+          </article>
+          <article>
+            <span>02 personnes</span>
+            <strong>50 000</strong>
+            <small>FCFA</small>
+          </article>
+          <article>
+            <span>05 personnes</span>
+            <strong>125 000</strong>
+            <small>FCFA</small>
+          </article>
+          <p>Tarif fixe : 25 000 FCFA par participant.</p>
+        </div>
       </section>
 
       <section className="ai-schedule">
@@ -182,7 +214,7 @@ export default function IaPourTousPage() {
         <div>
           <p className="ai-eyebrow">Participation complète</p>
           <h2>25 000 <small>FCFA</small></h2>
-          <p>Les trois séances · présentiel ou en ligne</p>
+          <p>Par participant · présentiel ou en ligne</p>
         </div>
         <div className="ai-offer-card">
           <ul>
@@ -190,9 +222,10 @@ export default function IaPourTousPage() {
             <li>Accessible sans compétence technique</li>
             <li>Exercices appliqués à votre quotidien</li>
             <li>15 places maximum en présentiel</li>
+            <li>Inscription individuelle ou en groupe</li>
           </ul>
           <a className="ai-primary" href={whatsappUrl} target="_blank" rel="noreferrer">
-            Réserver sur WhatsApp <span aria-hidden="true">↗</span>
+            Réserver 1 ou plusieurs places <span aria-hidden="true">→</span>
           </a>
           <p>
             Paiement MoMo : <strong>+229 01 67 15 39 74</strong><br />
