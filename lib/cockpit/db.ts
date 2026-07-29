@@ -40,6 +40,7 @@ function initialise(db: Database.Database) {
       currency TEXT NOT NULL DEFAULT 'FCFA',
       status TEXT NOT NULL DEFAULT 'En pause',
       priority INTEGER NOT NULL DEFAULT 9,
+      wake_at TEXT,
       target TEXT NOT NULL DEFAULT '',
       page_url TEXT NOT NULL DEFAULT '',
       notion_url TEXT UNIQUE,
@@ -145,6 +146,11 @@ function initialise(db: Database.Database) {
     CREATE INDEX IF NOT EXISTS idx_passages_occurred_on ON passages(occurred_on DESC);
   `);
 
+  const offerColumns = rows<{ name: string }>(db.prepare("PRAGMA table_info(offers)"));
+  if (!offerColumns.some((column) => column.name === "wake_at")) {
+    db.exec("ALTER TABLE offers ADD COLUMN wake_at TEXT");
+  }
+
   db.prepare(
     "INSERT OR IGNORE INTO settings (key, value) VALUES ('revenue_goal', '350000')"
   ).run();
@@ -175,6 +181,12 @@ function initialise(db: Database.Database) {
   ] as const;
 
   for (const offer of offers) seedOffer.run(...offer);
+
+  db.prepare(`
+    UPDATE offers
+    SET status = 'Gelée', priority = 99, wake_at = '2026-12-01', updated_at = CURRENT_TIMESTAMP
+    WHERE slug = 'ensemble'
+  `).run();
 }
 
 function rows<T>(statement: Database.Statement, ...params: (string | number | null)[]) {
@@ -201,11 +213,24 @@ export function getDashboardData() {
   const totals = db.prepare(`
     SELECT
       COALESCE(SUM(paid_amount), 0) AS collected,
-      COALESCE(SUM(potential_amount), 0) AS potential,
+      COALESCE(SUM(
+        CASE
+          WHEN o.status = 'Active' AND p.stage NOT IN ('Payé', 'Livré', 'Perdu')
+          THEN p.potential_amount
+          ELSE 0
+        END
+      ), 0) AS potential,
       COUNT(*) AS opportunities,
       SUM(CASE WHEN temperature = 'Chaud' OR stage IN ('Intérêt', 'Diagnostic ou RDV', 'Proposition', 'Paiement annoncé') THEN 1 ELSE 0 END) AS hot,
-      SUM(CASE WHEN next_follow_up_at IS NOT NULL AND datetime(next_follow_up_at) <= datetime('now') AND stage NOT IN ('Payé', 'Livré', 'Perdu') THEN 1 ELSE 0 END) AS due
-    FROM opportunities
+      SUM(CASE
+        WHEN o.status = 'Active'
+          AND p.next_follow_up_at IS NOT NULL
+          AND datetime(p.next_follow_up_at) <= datetime('now')
+          AND p.stage NOT IN ('Payé', 'Livré', 'Perdu')
+        THEN 1 ELSE 0
+      END) AS due
+    FROM opportunities p
+    JOIN offers o ON o.id = p.offer_id
   `).get() as { collected: number; potential: number; opportunities: number; hot: number; due: number };
 
   const offers = rows<{
@@ -215,7 +240,7 @@ export function getDashboardData() {
     SELECT o.id, o.slug, o.name, o.price, o.status, o.priority, o.page_url,
       COUNT(p.id) AS prospects,
       COALESCE(SUM(p.paid_amount), 0) AS collected,
-      COALESCE(SUM(p.potential_amount), 0) AS potential,
+      COALESCE(SUM(CASE WHEN p.stage NOT IN ('Payé', 'Livré', 'Perdu') THEN p.potential_amount ELSE 0 END), 0) AS potential,
       SUM(CASE WHEN p.temperature = 'Chaud' OR p.stage IN ('Intérêt', 'Diagnostic ou RDV', 'Proposition', 'Paiement annoncé') THEN 1 ELSE 0 END) AS hot
     FROM offers o
     LEFT JOIN opportunities p ON p.offer_id = o.id
@@ -226,18 +251,27 @@ export function getDashboardData() {
   const opportunities = rows<{
     id: number; contact_id: number; name: string; organisation: string; coordinate: string;
     profile_url: string; offer_name: string; offer_slug: string; status: string; stage: string;
-    temperature: string; channel: string; potential_amount: number; paid_amount: number;
+    offer_status: string; temperature: string; channel: string; potential_amount: number; paid_amount: number;
     payment_confirmed: number; last_interaction_at: string | null; next_follow_up_at: string | null;
     next_action: string;
   }>(db.prepare(`
     SELECT p.id, p.contact_id, c.name, c.organisation, c.coordinate, c.profile_url,
-      o.name AS offer_name, o.slug AS offer_slug, p.status, p.stage, p.temperature,
+      o.name AS offer_name, o.slug AS offer_slug, o.status AS offer_status,
+      p.status, p.stage, p.temperature,
       p.channel, p.potential_amount, p.paid_amount, p.payment_confirmed,
       p.last_interaction_at, p.next_follow_up_at, p.next_action
     FROM opportunities p
     JOIN contacts c ON c.id = p.contact_id
     JOIN offers o ON o.id = p.offer_id
     ORDER BY
+      CASE p.stage
+        WHEN 'Paiement annoncé' THEN 0
+        WHEN 'Proposition' THEN 1
+        WHEN 'Diagnostic ou RDV' THEN 2
+        WHEN 'Intérêt' THEN 3
+        WHEN 'Réponse' THEN 4
+        ELSE 5
+      END,
       CASE p.temperature WHEN 'Chaud' THEN 0 WHEN 'Tiède' THEN 1 ELSE 2 END,
       COALESCE(p.next_follow_up_at, '9999-12-31'),
       p.updated_at DESC
@@ -318,6 +352,18 @@ function nullable(value: FormDataEntryValue | null) {
   return text || null;
 }
 
+function isPlaceholderAction(value: string) {
+  const normalized = value.trim().toLowerCase();
+  return [
+    "vérifier la réponse puis relancer une seule fois à l’échéance autorisée.",
+    "verifier la reponse puis relancer une seule fois a l'echeance autorisee.",
+    "attendre la réponse",
+    "attendre la reponse",
+    "à définir",
+    "a definir",
+  ].includes(normalized);
+}
+
 export function addProspect(form: FormData) {
   const db = getDatabase();
   const name = String(form.get("name") || "").trim();
@@ -355,7 +401,14 @@ export function addProspect(form: FormData) {
     );
 
     const contact = db.prepare("SELECT id FROM contacts WHERE identity_key = ?").get(identityKey) as { id: number };
-    const offer = db.prepare("SELECT price, page_url FROM offers WHERE id = ?").get(offerId) as { price: number; page_url: string };
+    const offer = db.prepare("SELECT price, page_url, status FROM offers WHERE id = ?").get(offerId) as { price: number; page_url: string; status: string };
+    if (!offer || offer.status !== "Active") {
+      throw new Error("Cette offre n’est pas active : aucune nouvelle prospection ne peut être créée.");
+    }
+    const nextAction = String(form.get("next_action") || "").trim();
+    if (!nextAction || isPlaceholderAction(nextAction)) {
+      throw new Error("L’action suivante doit décrire une décision précise, une échéance et une condition de clôture.");
+    }
     db.prepare(`
       INSERT INTO opportunities (
         contact_id, offer_id, status, stage, temperature, channel, potential_amount,
@@ -382,6 +435,11 @@ export function addProspect(form: FormData) {
 
 export function updateOpportunity(id: number, form: FormData) {
   const db = getDatabase();
+  const nextFollowUp = nullable(form.get("next_follow_up_at"));
+  const nextAction = String(form.get("next_action") || "").trim();
+  if (nextFollowUp && (!nextAction || isPlaceholderAction(nextAction))) {
+    throw new Error("Une relance planifiée exige une action suivante spécifique et vérifiable.");
+  }
   db.prepare(`
     UPDATE opportunities SET
       status = ?, stage = ?, temperature = ?, potential_amount = ?,
@@ -392,8 +450,8 @@ export function updateOpportunity(id: number, form: FormData) {
     String(form.get("stage") || "Contacté"),
     String(form.get("temperature") || "Froid"),
     Number(form.get("potential_amount") || 0),
-    nullable(form.get("next_follow_up_at")),
-    String(form.get("next_action") || ""),
+    nextFollowUp,
+    nextAction,
     String(form.get("notes") || ""),
     new Date().toISOString(),
     id
@@ -404,6 +462,11 @@ export function addInteraction(id: number, form: FormData) {
   const db = getDatabase();
   const opportunity = db.prepare("SELECT contact_id, offer_id FROM opportunities WHERE id = ?").get(id) as { contact_id: number; offer_id: number };
   const occurredAt = String(form.get("occurred_at") || new Date().toISOString());
+  const followUpAt = nullable(form.get("follow_up_at"));
+  const nextAction = String(form.get("next_action") || "").trim();
+  if (followUpAt && (!nextAction || isPlaceholderAction(nextAction))) {
+    throw new Error("Une relance planifiée exige une action suivante spécifique et vérifiable.");
+  }
   db.prepare(`
     INSERT INTO interactions (
       contact_id, opportunity_id, offer_id, type, channel, direction, result,
@@ -415,7 +478,7 @@ export function addInteraction(id: number, form: FormData) {
     String(form.get("direction") || "Sortant"), String(form.get("result") || "Aucun signal"),
     String(form.get("summary") || ""), String(form.get("message") || ""),
     String(form.get("page_sent") || ""), String(form.get("next_action") || ""),
-    nullable(form.get("follow_up_at")), String(form.get("executed_by") || "Baroka"), occurredAt
+    followUpAt, String(form.get("executed_by") || "Baroka"), occurredAt
   );
 
   const stageByResult: Record<string, [string, string, string]> = {
@@ -432,15 +495,15 @@ export function addInteraction(id: number, form: FormData) {
         last_interaction_at = ?, next_follow_up_at = ?, next_action = ?, updated_at = ?
       WHERE id = ?
     `).run(
-      next[0], next[1], next[2], occurredAt, nullable(form.get("follow_up_at")),
-      String(form.get("next_action") || ""), new Date().toISOString(), id
+      next[0], next[1], next[2], occurredAt, followUpAt,
+      nextAction, new Date().toISOString(), id
     );
   } else {
     db.prepare(`
       UPDATE opportunities SET last_interaction_at = ?, next_follow_up_at = ?,
         next_action = ?, updated_at = ? WHERE id = ?
     `).run(
-      occurredAt, nullable(form.get("follow_up_at")), String(form.get("next_action") || ""),
+      occurredAt, followUpAt, nextAction,
       new Date().toISOString(), id
     );
   }
@@ -478,6 +541,13 @@ export function addPassage(form: FormData) {
   const occurredOn = String(form.get("occurred_on") || new Date().toISOString().slice(0, 10));
   const slot = String(form.get("slot") || "Matin");
   const slotKey = `${occurredOn}-${slot.toLowerCase()}`;
+  const offerId = Number(form.get("offer_id")) || null;
+  if (offerId) {
+    const offer = db.prepare("SELECT status FROM offers WHERE id = ?").get(offerId) as { status: string } | undefined;
+    if (!offer || offer.status !== "Active") {
+      throw new Error("Une offre gelée ou en pause ne peut pas générer de passage commercial.");
+    }
+  }
   db.prepare(`
     INSERT INTO passages (
       slot_key, offer_id, slot, channels, responses, new_contacts, follow_ups,
@@ -492,7 +562,7 @@ export function addPassage(form: FormData) {
       collected_amount = excluded.collected_amount, result = excluded.result,
       next_priority = excluded.next_priority
   `).run(
-    slotKey, Number(form.get("offer_id")) || null, slot, String(form.get("channels") || ""),
+    slotKey, offerId, slot, String(form.get("channels") || ""),
     Number(form.get("responses") || 0), Number(form.get("new_contacts") || 0),
     Number(form.get("follow_ups") || 0), Number(form.get("pages_sent") || 0),
     Number(form.get("confirmed_payments") || 0), Number(form.get("collected_amount") || 0),

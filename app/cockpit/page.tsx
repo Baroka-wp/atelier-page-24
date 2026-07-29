@@ -42,7 +42,11 @@ export default async function CockpitPage() {
   const priorityProspects = data.opportunities
     .filter((item) => {
       const due = item.next_follow_up_at && new Date(item.next_follow_up_at) <= now;
-      return due || item.temperature === "Chaud" || ["Intérêt", "Diagnostic ou RDV", "Proposition", "Paiement annoncé"].includes(item.stage);
+      return item.offer_status === "Active" && (
+        due ||
+        item.temperature === "Chaud" ||
+        ["Intérêt", "Diagnostic ou RDV", "Proposition", "Paiement annoncé"].includes(item.stage)
+      );
     })
     .slice(0, 6);
 
@@ -170,7 +174,7 @@ export default async function CockpitPage() {
           <article>
             <span>Opportunités</span>
             <strong>{data.opportunityCount}</strong>
-            <small>dans la base active</small>
+            <small>historique total</small>
           </article>
           <article>
             <span>Signaux chauds</span>

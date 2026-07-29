@@ -41,24 +41,31 @@ export async function POST(request: NextRequest) {
   const data = { ...(body.data || {}) };
   const dashboard = getDashboardData();
 
-  if (body.action === "prospect") {
-    if (!data.offer_id && data.offer_slug) {
-      data.offer_id = dashboard.offers.find((offer) => offer.slug === data.offer_slug)?.id;
+  try {
+    if (body.action === "prospect") {
+      if (!data.offer_id && data.offer_slug) {
+        data.offer_id = dashboard.offers.find((offer) => offer.slug === data.offer_slug)?.id;
+      }
+      addProspect(toFormData(data));
+    } else if (body.action === "interaction" && body.opportunity_id) {
+      addInteraction(body.opportunity_id, toFormData(data));
+    } else if (body.action === "update" && body.opportunity_id) {
+      updateOpportunity(body.opportunity_id, toFormData(data));
+    } else if (body.action === "payment" && body.opportunity_id) {
+      confirmPayment(body.opportunity_id, toFormData(data));
+    } else if (body.action === "passage") {
+      if (!data.offer_id && data.offer_slug) {
+        data.offer_id = dashboard.offers.find((offer) => offer.slug === data.offer_slug)?.id;
+      }
+      addPassage(toFormData(data));
+    } else {
+      return NextResponse.json({ error: "Action invalide ou identifiant manquant" }, { status: 400 });
     }
-    addProspect(toFormData(data));
-  } else if (body.action === "interaction" && body.opportunity_id) {
-    addInteraction(body.opportunity_id, toFormData(data));
-  } else if (body.action === "update" && body.opportunity_id) {
-    updateOpportunity(body.opportunity_id, toFormData(data));
-  } else if (body.action === "payment" && body.opportunity_id) {
-    confirmPayment(body.opportunity_id, toFormData(data));
-  } else if (body.action === "passage") {
-    if (!data.offer_id && data.offer_slug) {
-      data.offer_id = dashboard.offers.find((offer) => offer.slug === data.offer_slug)?.id;
-    }
-    addPassage(toFormData(data));
-  } else {
-    return NextResponse.json({ error: "Action invalide ou identifiant manquant" }, { status: 400 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Écriture refusée" },
+      { status: 400 }
+    );
   }
 
   const updated = getDashboardData();
