@@ -40,7 +40,8 @@ test("server-renders every campaign as a separate offer", async () => {
   const campaigns = [
     ["/coding-express", /Coding Express/],
     ["/automation-sprint", /Automation Sprint/],
-    ["/pmp-ready", /PMP Ready/],
+    ["/pmp-ready", /Boîte à outils Projet/],
+    ["/gestion-de-projet", /Boîte à outils Projet/],
     ["/kabbale-theurgie", /Kabbale/],
     ["/un-petit-livre", /Un Petit Livre/],
   ];
