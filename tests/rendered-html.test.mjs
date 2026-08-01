@@ -44,6 +44,7 @@ test("server-renders every campaign as a separate offer", async () => {
     ["/gestion-de-projet", /Boîte à outils Projet/],
     ["/kabbale-theurgie", /Kabbale/],
     ["/un-petit-livre", /Un Petit Livre/],
+    ["/project-room", /PROJECT ROOM/],
   ];
 
   for (const [pathname, marker] of campaigns) {
@@ -51,7 +52,12 @@ test("server-renders every campaign as a separate offer", async () => {
     assert.equal(response.status, 200, pathname);
     const html = await response.text();
     assert.match(html, marker, pathname);
-    assert.match(html, /href="#proposition"/, pathname);
-    assert.match(html, /Retour en haut/, pathname);
+    if (pathname === "/project-room") {
+      assert.match(html, /5 000/);
+      assert.match(html, /Présenter mon projet/);
+    } else {
+      assert.match(html, /href="#proposition"/, pathname);
+      assert.match(html, /Retour en haut/, pathname);
+    }
   }
 });
