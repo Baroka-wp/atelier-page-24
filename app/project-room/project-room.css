@@ -102,9 +102,15 @@
 .room-sequence-grid h3 { margin: 84px 0 18px; font-size: 40px; font-weight: 500; letter-spacing: -.045em; }
 .room-sequence-grid p { max-width: 330px; color: #c2c0b9; line-height: 1.7; }
 
-.room-squint { min-height: 760px; display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 8vw; overflow: hidden; padding: 90px 7vw; background: #dedbd2; }
-.room-squint-word { color: transparent; font-size: clamp(120px, 23vw, 360px); font-weight: 700; letter-spacing: -.11em; line-height: .7; -webkit-text-stroke: 1px #9d9a92; transform: translateX(-8vw); }
-.room-squint-copy { max-width: 620px; }
+.room-squint { min-height: 760px; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr); align-items: center; gap: clamp(54px, 8vw, 140px); overflow: clip; padding: clamp(90px, 10vw, 150px) clamp(24px, 7vw, 108px); background: #dedbd2; }
+.room-squint-visual { position: relative; min-width: 0; aspect-ratio: 1.22 / 1; display: grid; place-items: center; isolation: isolate; border-block: 1px solid #aaa69d; }
+.room-squint-visual::before { content: ""; position: absolute; top: 12%; bottom: 12%; left: 50%; z-index: -1; border-left: 1px solid rgba(109, 105, 96, .42); }
+.room-squint-visual::after { content: ""; position: absolute; width: 11px; height: 11px; border-radius: 50%; background: var(--room-red); box-shadow: 0 0 0 9px rgba(139, 45, 29, .1); }
+.room-squint-word { position: relative; width: 100%; color: transparent; font-size: clamp(76px, 12.7vw, 205px); font-weight: 700; letter-spacing: -.105em; line-height: .75; text-align: center; white-space: nowrap; -webkit-text-stroke: 1px #89867f; }
+.room-squint-word::before { content: ""; position: absolute; top: 50%; right: 0; left: 0; z-index: -1; border-top: 1px solid rgba(109, 105, 96, .42); }
+.room-squint-focus { position: absolute; right: 0; bottom: 18px; padding-left: 16px; background: #dedbd2; color: #69665f; font-size: 8px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.room-squint-copy { max-width: 620px; text-wrap: pretty; }
+.room-squint-copy h2 { text-wrap: balance; }
 .room-squint-copy p:last-child { max-width: 560px; color: var(--room-muted); font-size: 17px; line-height: 1.75; }
 
 .room-map { display: grid; grid-template-columns: .8fr 1.2fr; gap: 10vw; }
@@ -140,8 +146,9 @@
   .room-hero::after { display: none; }
   .room-board { width: min(100%, 660px); justify-self: center; }
   .room-manifesto, .room-map, .room-fit, .room-application, .room-squint { grid-template-columns: 1fr; }
-  .room-squint { min-height: auto; }
-  .room-squint-word { font-size: 32vw; }
+  .room-squint { min-height: auto; gap: 64px; }
+  .room-squint-visual { width: min(100%, 720px); aspect-ratio: 1.8 / 1; }
+  .room-squint-word { font-size: clamp(76px, 20vw, 170px); }
 }
 
 @media (max-width: 680px) {
@@ -163,7 +170,11 @@
   .room-sequence-grid article { min-height: auto; padding: 35px 0; }
   .room-sequence-grid article + article { padding-left: 0; border-top: 1px solid #55544e; border-left: 0; }
   .room-sequence-grid h3 { margin-top: 35px; }
-  .room-squint { padding: 76px 20px; }
+  .room-squint { gap: 46px; padding: 76px 20px 86px; }
+  .room-squint-visual { width: 100%; aspect-ratio: 1.45 / 1; }
+  .room-squint-word { font-size: clamp(52px, 16.2vw, 104px); letter-spacing: -.09em; }
+  .room-squint-focus { bottom: 12px; max-width: 72%; font-size: 7px; line-height: 1.4; text-align: right; }
+  .room-squint-copy h2 { font-size: clamp(38px, 12vw, 58px); }
   .room-map-list article { grid-template-columns: 34px 1fr; }
   .room-map-list article p { grid-column: 2; }
   .room-fit-grid { grid-template-columns: 1fr; }

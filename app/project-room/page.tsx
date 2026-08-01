@@ -96,11 +96,14 @@ export default function ProjectRoomPage() {
         </div>
       </section>
 
-      <section className="room-squint">
-        <div className="room-squint-word">SQUINT</div>
+      <section className="room-squint" aria-labelledby="squint-title">
+        <div className="room-squint-visual" aria-hidden="true">
+          <span className="room-squint-word">SQUINT</span>
+          <span className="room-squint-focus">But / chemin / décision</span>
+        </div>
         <div className="room-squint-copy">
           <p className="room-section-number">03 / PRENDRE DU RECUL</p>
-          <h2>Quand on plisse les yeux,<br />l’essentiel apparaît.</h2>
+          <h2 id="squint-title">Quand on plisse les yeux,<br />l’essentiel apparaît.</h2>
           <p>Nous éloignons les détails qui occupent tout l’espace pour faire ressortir le but, le chemin critique, les décisions et la prochaine action.</p>
         </div>
       </section>
