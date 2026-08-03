@@ -12,13 +12,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "PROJECT ROOM — Gestion de projet + IA",
     description: "Un projet réel. Une matinée. Cinq sorties concrètes.",
-    images: [{ url: "/project-room-social-v6.png", width: 1200, height: 630 }],
+    images: [{ url: "/project-room-social-v7.png", width: 1731, height: 909 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "PROJECT ROOM — Gestion de projet + IA",
     description: "Un projet réel. Une matinée. Cinq sorties concrètes.",
-    images: ["/project-room-social-v6.png"],
+    images: ["/project-room-social-v7.png"],
   },
 };
 

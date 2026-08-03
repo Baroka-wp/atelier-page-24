@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import { headers } from "next/headers";
 import "./globals.css";
 import "./studio.css";
 
@@ -11,17 +10,12 @@ const montserrat = Montserrat({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const requestHeaders = await headers();
-  const host =
-    requestHeaders.get("x-forwarded-host") ??
-    requestHeaders.get("host") ??
-    "localhost:3000";
-  const protocol =
-    requestHeaders.get("x-forwarded-proto") ??
-    (host.includes("localhost") ? "http" : "https");
-  const imageUrl = `${protocol}://${host}/og-studio.png`;
+  const publicOrigin =
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://page.laforge-hub.com";
+  const imageUrl = `${publicOrigin}/og-studio.png`;
 
   return {
+    metadataBase: new URL(publicOrigin),
     title: "Atelier Page 24 — Une page premium en 24 heures",
     description:
       "Une page de vente premium, conçue, écrite et mise en ligne en 24 heures. Offre fondatrice à Cotonou.",
